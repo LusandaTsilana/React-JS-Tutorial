@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
+import { Employee } from "./employee.js";
+import {} from "./state.js";
 
 const title = <h3>Welcome to my Youtube Channel!</h3>;
 
@@ -19,16 +21,6 @@ const AgeButton = () => {
   );
 };
 
-const Employee = (props) => {
-  return (
-    <div>
-      <p> {props.occupation}</p>
-      <p> {props.salary} </p>
-      <p> {props.company}</p>
-    </div>
-  );
-};
-
 const User = (props) => {
   return (
     <div>
@@ -40,6 +32,12 @@ const User = (props) => {
 };
 
 function App() {
+  const [number, setNumber] = useState(0);
+
+  const increaseNumber = () => {
+    setNumber(number + 2);
+  };
+
   const [userAge, setUserAge] = useState(""); // State variable to store user's age
 
   const handleInput = (event) => {
@@ -57,10 +55,40 @@ function App() {
   };
 
   const snacks = [
-    { snack: "biltong :", type: "healthy" },
-    { snack: "chips :", type: "unhealthy" },
-    { snack: "chocolate :", type: "depends. haha!" },
+    { name: "biltong :", type: "healthy" },
+    { name: "chips :", type: "unhealthy" },
+    { name: "chocolate :", type: "depends. haha!" },
   ];
+
+  const Snacks = (props) => {
+    return (
+      <div>
+        <p>
+          {props.name}
+          {props.type}
+        </p>
+      </div>
+    );
+  };
+
+  const planets = [
+    { name: "Mars", isGasPlanet: false },
+    { name: "Earth", isGasPlanet: false },
+    { name: "Jupiter", isGasPlanet: true },
+    { name: "Uranus", isGasPlanet: true },
+    { name: "Venus", isGasPlanet: false },
+    { name: "Neptune", isGasPlanet: true },
+  ];
+
+  const Planets = ({ name, isGasPlanet }) => {
+    const backgroundColor = isGasPlanet ? "green" : "red";
+
+    return (
+      <div style={{ backgroundColor }} className="planet">
+        {name}
+      </div>
+    );
+  };
 
   return (
     <div className="App">
@@ -87,19 +115,33 @@ function App() {
 
       {/* Ways of writing conditional statements without using if-else */}
       <label>Please input your age:</label>
-      <input name="age" onChange={handleInput}></input>
+      <input name="age" type="text" onChange={handleInput}></input>
       <div onClick={checkAgesystem}>
         <AgeButton />
       </div>
 
-      {snacks.map((treat, key) => {
-        return (
-          <p key={key}>
-            {" "}
-            {treat.snack} {treat.type}
-          </p>
-        );
-      })}
+      <div className="food">
+        {snacks.map((snack, key) => {
+          return <Snacks name={snack.name} type={snack.type} />;
+        })}
+      </div>
+
+      <div className="planets">
+        {planets.map((planet, key) => {
+          return (
+            <Planets
+              key={key}
+              name={planet.name}
+              isGasPlanet={planet.isGasPlanet}
+            />
+          );
+        })}
+      </div>
+
+      <div>
+        {number} <br />
+        <button onClick={increaseNumber}>counter</button>
+      </div>
     </div>
   );
 }
