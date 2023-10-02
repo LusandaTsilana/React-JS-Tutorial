@@ -28,6 +28,23 @@
   box-shadow: 0 0 10px 0;
 }
 
+.count {
+  font-size: 30px;
+}
+
+.activity button {
+  padding: 10px;
+}
+
+#scary-button {
+  align-items: center;
+}
+
+#Clown {
+  width: 60%;
+  height: 480px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

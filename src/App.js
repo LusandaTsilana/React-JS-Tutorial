@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 import { Employee } from "./employee.js";
 import {} from "./state.js";
+import myImage from "./clown.jpg";
 
 const title = <h3>Welcome to my Youtube Channel!</h3>;
 
@@ -36,6 +37,15 @@ function App() {
 
   const increaseNumber = () => {
     setNumber(number + 2);
+  };
+
+  const [digit, setDigit] = useState("");
+
+  //the below can be useful for taking users name from a login and using elsewhere in the app
+  //to create familiarity for the user, better experiecnce
+
+  const multipleDigit = (event) => {
+    setDigit(event.target.value);
   };
 
   const [userAge, setUserAge] = useState(""); // State variable to store user's age
@@ -90,6 +100,41 @@ function App() {
     );
   };
 
+  const [showImage, setshowImage] = useState(false);
+
+  const [textColor, setTextColor] = useState("blue");
+
+  const [count, setCount] = useState(0);
+
+  const increase = () => {
+    setCount(count + 2);
+  };
+
+  const decrease = () => {
+    setCount(count - 2);
+  };
+
+  const zero = () => {
+    setCount(0);
+  };
+
+  const result = (event) => {
+    setCount(event.target.value);
+  };
+
+  const [todo, setTodo] = useState([]);
+
+  const [newTask, setNewtask] = useState("");
+
+  const addtask = () => {
+    const newTodo = [...todo, newTask];
+    setTodo(newTodo);
+  };
+
+  const handleChange = (event) => {
+    setNewtask(event.target.value);
+  };
+
   return (
     <div className="App">
       {title}
@@ -122,7 +167,7 @@ function App() {
 
       <div className="food">
         {snacks.map((snack, key) => {
-          return <Snacks name={snack.name} type={snack.type} />;
+          return <Snacks key={key} name={snack.name} type={snack.type} />;
         })}
       </div>
 
@@ -141,6 +186,59 @@ function App() {
       <div>
         {number} <br />
         <button onClick={increaseNumber}>counter</button>
+      </div>
+
+      <div className="multiples">
+        <label>
+          Please input a digit
+          <input type="text" id="input" onChange={multipleDigit} />
+        </label>
+        {digit}
+      </div>
+      <div>{showImage && <img src={myImage} alt="Clown" id="Clown" />}</div>
+      <button
+        onClick={() => {
+          setshowImage(!showImage);
+        }}
+        id="scary-button"
+      >
+        Peek-Or-Boo
+      </button>
+
+      <h1 style={{ color: textColor }}>Hey!!</h1>
+
+      <button
+        onClick={() => {
+          setTextColor(textColor === "blue" ? "red" : "blue");
+        }}
+      >
+        Click to change color
+      </button>
+      <br />
+
+      <div className="activity">
+        <h1>Activity ↓ </h1>
+        <button onClick={increase}>Increase</button>
+        <button onClick={decrease}>Decrease</button>
+        <button onClick={zero}>Set to Zero</button>
+        <p className="count" onChange={result}>
+          {count}
+        </p>
+      </div>
+
+      <div className="CRUD">
+        <div className="addtask">
+          <h2> To do list </h2>
+          <input onChange={handleChange} />
+          <button on>Add Task</button>
+          <button>Remove Task </button>
+
+          <div className="list">
+            {todo.map((todo) => {
+              return <h1>{todo}</h1>;
+            })}
+          </div>
+        </div>
       </div>
     </div>
   );
