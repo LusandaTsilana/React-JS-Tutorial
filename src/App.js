@@ -3,6 +3,7 @@ import "./App.css";
 import { Employee } from "./employee.js";
 import {} from "./state.js";
 import myImage from "./clown.jpg";
+import { Task } from "./task.js";
 
 const title = <h3>Welcome to my Youtube Channel!</h3>;
 
@@ -126,13 +127,22 @@ function App() {
 
   const [newTask, setNewtask] = useState("");
 
+  //could be useful when user adds exercises to workout app
   const addtask = () => {
-    const newTodo = [...todo, newTask];
-    setTodo(newTodo);
+    const task = {
+      id: todo.length === 0 ? 1 : todo[todo.length - 1].id + 1,
+      taskName: newTask,
+      completed:
+    };
+    setTodo([...todo, task]);
   };
 
   const handleChange = (event) => {
     setNewtask(event.target.value);
+  };
+
+  const deletetask = (id) => {
+    setTodo(todo.filter((task) => task.id !== id));
   };
 
   return (
@@ -230,12 +240,18 @@ function App() {
         <div className="addtask">
           <h2> To do list </h2>
           <input onChange={handleChange} />
-          <button on>Add Task</button>
-          <button>Remove Task </button>
+          <button onClick={addtask}>Add Task</button>
 
           <div className="list">
-            {todo.map((todo) => {
-              return <h1>{todo}</h1>;
+            {todo.map((task, key) => {
+              return (
+                <Task
+                  key={key}
+                  taskName={task.taskName}
+                  id={task.id}
+                  deletetask={deletetask}
+                />
+              );
             })}
           </div>
         </div>
