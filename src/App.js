@@ -125,14 +125,14 @@ function App() {
 
   const [todo, setTodo] = useState([]);
 
-  const [newTask, setNewtask] = useState("");
+  const [newTask, setNewtask] = useState();
 
   //could be useful when user adds exercises to workout app
   const addtask = () => {
     const task = {
       id: todo.length === 0 ? 1 : todo[todo.length - 1].id + 1,
       taskName: newTask,
-      completed:
+      completed: false,
     };
     setTodo([...todo, task]);
   };
@@ -143,6 +143,18 @@ function App() {
 
   const deletetask = (id) => {
     setTodo(todo.filter((task) => task.id !== id));
+  };
+
+  const complete = (id) => {
+    setTodo(
+      todo.map((task) => {
+        if (task.id === id) {
+          return { ...task, completed: true };
+        } else {
+          return task;
+        }
+      })
+    );
   };
 
   return (
@@ -249,7 +261,9 @@ function App() {
                   key={key}
                   taskName={task.taskName}
                   id={task.id}
+                  completed={task.completed}
                   deletetask={deletetask}
+                  complete={complete}
                 />
               );
             })}
