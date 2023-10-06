@@ -4,6 +4,9 @@ import { Employee } from "./employee.js";
 import {} from "./state.js";
 import myImage from "./clown.jpg";
 import { Task } from "./task.js";
+import Axios from "axios";
+
+import { Section } from "./text";
 
 const title = <h3>Welcome to my Youtube Channel!</h3>;
 
@@ -103,6 +106,8 @@ function App() {
 
   const [showImage, setshowImage] = useState(false);
 
+  const [showText, setshowText] = useState(false);
+
   const [textColor, setTextColor] = useState("blue");
 
   const [count, setCount] = useState(0);
@@ -156,6 +161,12 @@ function App() {
       })
     );
   };
+
+  const [catFact, setCatFact] = useState("");
+
+  Axios.get("https://catfact.ninja/fact").then((res) => {
+    setCatFact(res.data.fact);
+  });
 
   return (
     <div className="App">
@@ -269,6 +280,20 @@ function App() {
             })}
           </div>
         </div>
+      </div>
+
+      <button
+        onClick={() => {
+          setshowText(!showText);
+        }}
+      >
+        ShowText
+      </button>
+      {showText && <Section />}
+
+      <div>
+        <button>Cat Fact</button>
+        <p> {catFact}</p>
       </div>
     </div>
   );
