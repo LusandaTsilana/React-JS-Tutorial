@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Employee } from "./employee.js";
 import {} from "./state.js";
@@ -164,9 +164,18 @@ function App() {
 
   const [catFact, setCatFact] = useState("");
 
-  Axios.get("https://catfact.ninja/fact").then((res) => {
-    setCatFact(res.data.fact);
-  });
+  const catpush = () => {
+    Axios.get("https://catfact.ninja/fact").then((res) => {
+      setCatFact(res.data.fact);
+    });
+    console.log("fact loaded");
+  };
+
+  // below the useEffect is used to monitor the rendering of the function
+  useEffect(() => {
+    //catpush();
+    console.log("page loaded");
+  }, []);
 
   return (
     <div className="App">
@@ -292,7 +301,7 @@ function App() {
       {showText && <Section />}
 
       <div>
-        <button>Cat Fact</button>
+        <button onClick={catpush}>Cat Fact</button>
         <p> {catFact}</p>
       </div>
     </div>
