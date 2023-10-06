@@ -177,6 +177,26 @@ function App() {
     console.log("page loaded");
   }, []);
 
+  const [excuse, setExcuse] = useState("");
+
+  const party = () => {
+    Axios.get("https://excuser.herokuapp.com/").then((response) => {
+      setExcuse(response.data.excu);
+    });
+  };
+
+  const family = () => {
+    Axios.get("").then((response) => {
+      setExcuse(response.data.excu);
+    });
+  };
+
+  const office = () => {
+    Axios.get("").then((response) => {
+      setExcuse(response.data.excu);
+    });
+  };
+
   return (
     <div className="App">
       {title}
@@ -303,6 +323,15 @@ function App() {
       <div>
         <button onClick={catpush}>Cat Fact</button>
         <p> {catFact}</p>
+      </div>
+
+      <div className="excuses">
+        <h1>Generate an excuse</h1>
+        <button onClick={party}>Party</button>
+        <button onClick={family}>Family</button>
+        <button onClick={office}>Office</button>
+
+        <p>{excuse}</p>
       </div>
     </div>
   );
