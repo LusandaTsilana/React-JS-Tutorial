@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Employee } from "./employee.js";
-import {} from "./state.js";
+
 import myImage from "./clown.jpg";
 import { Task } from "./task.js";
 import Axios from "axios";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import { Navbar } from "./Navbar";
 
 import { Home } from "./pages/Home";
 import { About } from "./pages/About";
@@ -196,20 +198,12 @@ function App() {
       declarations and paths */}
 
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/About" element={<About />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Router>
-
-      <nav>
-        <div className="nav-list">
-          <ul>
-            <li href="/">Home</li>
-            <li href="/About">About</li>
-          </ul>
-        </div>
-      </nav>
 
       {title}
       <Button />
