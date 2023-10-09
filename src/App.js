@@ -5,6 +5,10 @@ import {} from "./state.js";
 import myImage from "./clown.jpg";
 import { Task } from "./task.js";
 import Axios from "axios";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import { Home } from "./pages/Home";
+import { About } from "./pages/About";
 
 import { Section } from "./text";
 
@@ -177,34 +181,41 @@ function App() {
     console.log("page loaded");
   }, []);
 
-  const [excuse, setExcuse] = useState("");
-
-  const party = () => {
-    Axios.get("https://excuser.herokuapp.com/").then((response) => {
-      setExcuse(response.data.excu);
-    });
-  };
-
-  const family = () => {
-    Axios.get("").then((response) => {
-      setExcuse(response.data.excu);
-    });
-  };
-
-  const office = () => {
-    Axios.get("").then((response) => {
-      setExcuse(response.data.excu);
-    });
+  const [createdExcuse, setCreatedExcuse] = useState("");
+  const fetchExcuse = (excuse) => {
+    Axios.get(`https://excuser-three.vercel.app/v1/excuse/${excuse}/`).then(
+      (response) => {
+        setCreatedExcuse(response.data[0].excuse);
+      }
+    );
   };
 
   return (
     <div className="App">
+      {/* under normal circumstance, this app.js will only have the router
+      declarations and paths */}
+
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/About" element={<About />} />
+        </Routes>
+      </Router>
+
+      <nav>
+        <div className="nav-list">
+          <ul>
+            <li href="/">Home</li>
+            <li href="/About">About</li>
+          </ul>
+        </div>
+      </nav>
+
       {title}
       <Button />
       <User name="Stacy" age={17} gender="female" />
       <User name="Billy" age={10} gender="male" />
       <User name="Candice" age={75} gender="female" />
-
       <br />
       <div className="employee">
         <Employee occupation="engineer" salary="R35 000" company="navy" />
@@ -219,20 +230,22 @@ function App() {
           company="Sunny Primary School"
         />
       </div>
-
       {/* Ways of writing conditional statements without using if-else */}
-      <label>Please input your age:</label>
-      <input name="age" type="text" onChange={handleInput}></input>
+      <label>Please complete the below:</label>
+      <input
+        name="age"
+        type="text"
+        placeholder="age"
+        onChange={handleInput}
+      ></input>
       <div onClick={checkAgesystem}>
         <AgeButton />
       </div>
-
       <div className="food">
         {snacks.map((snack, key) => {
           return <Snacks key={key} name={snack.name} type={snack.type} />;
         })}
       </div>
-
       <div className="planets">
         {planets.map((planet, key) => {
           return (
@@ -244,12 +257,10 @@ function App() {
           );
         })}
       </div>
-
       <div>
         {number} <br />
         <button onClick={increaseNumber}>counter</button>
       </div>
-
       <div className="multiples">
         <label>
           Please input a digit
@@ -266,9 +277,7 @@ function App() {
       >
         Peek-Or-Boo
       </button>
-
       <h1 style={{ color: textColor }}>Hey!!</h1>
-
       <button
         onClick={() => {
           setTextColor(textColor === "blue" ? "red" : "blue");
@@ -277,7 +286,6 @@ function App() {
         Click to change color
       </button>
       <br />
-
       <div className="activity">
         <h1>Activity ↓ </h1>
         <button onClick={increase}>Increase</button>
@@ -287,7 +295,6 @@ function App() {
           {count}
         </p>
       </div>
-
       <div className="CRUD">
         <div className="addtask">
           <h2> To do list </h2>
@@ -310,7 +317,6 @@ function App() {
           </div>
         </div>
       </div>
-
       <button
         onClick={() => {
           setshowText(!showText);
@@ -319,19 +325,17 @@ function App() {
         ShowText
       </button>
       {showText && <Section />}
-
       <div>
         <button onClick={catpush}>Cat Fact</button>
         <p> {catFact}</p>
       </div>
-
       <div className="excuses">
         <h1>Generate an excuse</h1>
-        <button onClick={party}>Party</button>
-        <button onClick={family}>Family</button>
-        <button onClick={office}>Office</button>
+        <button onClick={() => fetchExcuse("party")}>Party</button>
+        <button onClick={() => fetchExcuse("family")}>Family</button>
+        <button onClick={() => fetchExcuse("office")}>Office</button>
 
-        <p>{excuse}</p>
+        <p>{createdExcuse}</p>
       </div>
     </div>
   );
