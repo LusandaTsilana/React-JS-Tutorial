@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import "./App.css";
 import { Employee } from "./employee.js";
 
@@ -11,6 +11,7 @@ import { Navbar } from "./Navbar";
 
 import { Home } from "./pages/Home";
 import { About } from "./pages/About";
+import { Profile } from "./pages/Profile";
 
 import { Section } from "./text";
 
@@ -42,7 +43,12 @@ const User = (props) => {
   );
 };
 
+//declaration of createContext named AppContext
+export const AppContext = createContext();
+
 function App() {
+  const [username, setUsername] = useState("LusandaTech");
+
   const [number, setNumber] = useState(0);
 
   const increaseNumber = () => {
@@ -196,16 +202,28 @@ function App() {
     <div className="App">
       {/* under normal circumstance, this app.js will only have the router
       declarations and paths */}
-
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Router>
-
       {title}
+      <br />
+      <br />
+      {/*use app context as a tag. whatever is inside will have access to it */}
+      <AppContext.Provider value={{ username, setUsername }}>
+        <Router>
+          <Navbar />
+          <Routes>
+            {/* the username constant variable is being nested in the 
+          home page & profile as it will be used there
+          It is a global component which can is then nested in the other components via 
+          the router*/}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        </Router>
+      </AppContext.Provider>
+      <br />
+      <br />
+      <br />
+
       <Button />
       <User name="Stacy" age={17} gender="female" />
       <User name="Billy" age={10} gender="male" />
