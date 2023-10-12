@@ -12,6 +12,7 @@ import { Navbar } from "./Navbar";
 import { Home } from "./pages/Home";
 import { About } from "./pages/About";
 import { Profile } from "./pages/Profile";
+import { Form } from "./form.js";
 
 import { Section } from "./text";
 
@@ -348,6 +349,10 @@ function App() {
         <button onClick={() => fetchExcuse("office")}>Office</button>
 
         <p>{createdExcuse}</p>
+      </div>
+
+      <div className="Form">
+        <Form />
       </div>
     </div>
   );
