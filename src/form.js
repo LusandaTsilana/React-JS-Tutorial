@@ -6,9 +6,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 export const Form = () => {
   //schema for validation for how data should look like
   const schema = yup.object().shape({
-    name: yup.string().required(),
+    name: yup.string().required("Your name is required"),
     email: yup.string().email().required(),
-    age: yup.number().positive().integer().min(18).required(),
+    age: yup
+      .number()
+      .positive()
+      .integer()
+      .min(18)
+      .required("Age is required to calculate your BMI"),
     password: yup.string().required(),
     confirmpassword: yup
       .string()
@@ -16,7 +21,11 @@ export const Form = () => {
       .required(),
   });
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -29,8 +38,11 @@ export const Form = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <input type="text" placeholder="name" {...register("name")} />
+      {/* if name field is an empty string or is null, error message will be displayed */}
+      <p>{errors.name ? errors.name.message : null}</p>
       <input type="email" placeholder="email" {...register("email")} />
       <input type="age" placeholder="age" {...register("age")} />
+
       <input type="password" placeholder="password" {...register("password")} />
       <input
         type="password"
