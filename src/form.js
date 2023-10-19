@@ -7,18 +7,26 @@ export const Form = () => {
   //schema for validation for how data should look like
   const schema = yup.object().shape({
     name: yup.string().required("Your name is required"),
-    email: yup.string().email().required(),
+    email: yup
+      .string()
+      .email("Incorrect format of email")
+      .required("Please enter your email address"),
     age: yup
-      .number()
+      .number("Age should be a numerical value")
       .positive()
       .integer()
       .min(18)
       .required("Age is required to calculate your BMI"),
-    password: yup.string().required(),
+    password: yup
+      .string()
+      .required("Please enter password for security purposes"),
     confirmpassword: yup
       .string()
-      .oneOf([yup.ref("password"), null])
-      .required(),
+      .oneOf(
+        [yup.ref("password"), null],
+        "Confirmed password does not match your password"
+      )
+      .required("Please confirm password for security purposes"),
   });
 
   const {
@@ -39,16 +47,22 @@ export const Form = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <input type="text" placeholder="name" {...register("name")} />
       {/* if name field is an empty string or is null, error message will be displayed */}
-      <p>{errors.name ? errors.name.message : null}</p>
-      <input type="email" placeholder="email" {...register("email")} />
-      <input type="age" placeholder="age" {...register("age")} />
+      <p id="error">{errors.name ? errors.name.message : null}</p>
+      <input type="text" placeholder="email" {...register("email")} />
+      <p id="error">{errors.email ? errors.email.message : null}</p>
+      <input type="number" placeholder="age" {...register("age")} />
+      <p id="error">{errors.age ? errors.age.message : null}</p>
 
       <input type="password" placeholder="password" {...register("password")} />
+      <p id="error">{errors.password ? errors.password.message : null}</p>
       <input
         type="password"
         placeholder="confirm password"
         {...register("confirmpassword")}
       />
+      <p id="error">
+        {errors.confirmpassword ? errors.confirmpassword.message : null}
+      </p>
       <input type="submit" />
     </form>
   );

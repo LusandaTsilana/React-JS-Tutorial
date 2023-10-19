@@ -8,6 +8,10 @@
   justify-content: center;
 }
 
+#error {
+  color: red;
+}
+
 .App {
   text-align: center;
 }
