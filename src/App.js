@@ -16,6 +16,8 @@ import { Form } from "./form.js";
 
 import { Section } from "./text";
 
+import { Person } from "./person.jsx";
+
 const title = <h3>Welcome to my Youtube Channel!</h3>;
 
 const Button = () => {
@@ -354,6 +356,14 @@ function App() {
       <div className="Form">
         <Form />
       </div>
+
+      <Person
+        name="Lusanda"
+        email="sanda.t@gmail.com"
+        age={65}
+        isMarried={true}
+        friends={["Ntswaki", "Sindy", "Amber"]}
+      />
     </div>
   );
 }
